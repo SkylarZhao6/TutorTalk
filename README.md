@@ -1,10 +1,10 @@
-# Local Tutor
+# Tutor Talk
 
-Local Tutor is a platform provides high quality tutoring sessions for post-secondary students.
+Tutor Talk is a platform provides high quality tutoring sessions for post-secondary students.
 
 ## How To Use
 
-### Visit [Local Tutor] now ()
+### Visit [Tutor Talk] now ()
 
 ### Installing
 
