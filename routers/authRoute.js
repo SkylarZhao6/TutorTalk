@@ -4,28 +4,23 @@ const router  = express.Router();
 module.exports = (database, jwt) => {
     // log student user in
     // may change the endpoint later...
-    router.post("/", (req, res) => {
+    router.post("/login", (req, res) => {
         const { email, password } = req.body;
+        console.log(email,password)
         database.getStudent(
             (err, user) => {
                 if (err) {
-                    // error page
-                    // res.render("error");
-                    return;
+                    return res.send({ err:err })
                 }
                 if (!user) {
-                    // main page
-                    res.render("", {
-                        msg: "Incorrect username or password!",
-                    });
-                    return;
+                    return res.send({ err: "Incorrect username or password!" })
                 }
+
                 const token = jwt.generateToken({
                     email,
                     user_id: user._id,
                 });
-                res.cookie("JWT", { token: token });
-                res.redirect("/profile");
+                return res.send({ userToken: token });
             },
             { email, password }
         );

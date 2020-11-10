@@ -6,7 +6,7 @@ const tutorProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Tutor"
     },
-    picture: Binary,
+    picture: String,
     role: String,
     job: String,
     diploma: String,
