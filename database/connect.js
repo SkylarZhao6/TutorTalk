@@ -115,6 +115,7 @@ module.exports = function (connected) {
                 })
             }
 
+            // insert student profile
             function createStudentProfile(callback, { student, picture, program, helps, about }) {
                 studentProfile.create(
                     {
@@ -134,6 +135,7 @@ module.exports = function (connected) {
                     })
             }
 
+            // get student profile from db
             function viewStudentProfile(callback, student) {
                 StudentProfile.findOne({ student: student.id }, (err, res) => {
                     err ? callback(err, null) : callback(null, res);
