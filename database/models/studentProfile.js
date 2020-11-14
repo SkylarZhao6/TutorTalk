@@ -1,4 +1,3 @@
-const { Binary } = require("bson");
 const mongoose = require("mongoose");
 
 const studentProfileSchema = new mongoose.Schema({
@@ -8,7 +7,7 @@ const studentProfileSchema = new mongoose.Schema({
     },
     picture: String,
     program: String,
-    subjects: [],
+    helps: [],
     about: String
 })
 

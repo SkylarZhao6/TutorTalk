@@ -1,11 +1,12 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const bcrypt   = require("bcrypt");
+const bcrypt = require("bcrypt");
+const StudentProfile = require("./models/studentProfile");
 
-module.exports = function(connected) {
+module.exports = function (connected) {
     // connect to mongodb
     mongoose.connect(
-        process.env.DBURI, 
+        process.env.DBURI,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -20,11 +21,11 @@ module.exports = function(connected) {
             }
 
             // import documents from database
-            const Student       = require("./models/student");
+            const Student = require("./models/student");
             const studentProfile = require("./models/studentProfile");
-            const Tip            = require("./models/tip");
-            const Tutor          = require("./models/tutor");
-            const TutorProfile   = require("./models/tutorProfile");
+            const Tip = require("./models/tip");
+            const Tutor = require("./models/tutor");
+            const TutorProfile = require("./models/tutorProfile");
 
             // queries to database
             // insert a new student user
@@ -74,53 +75,77 @@ module.exports = function(connected) {
             // validate a tutor or student user
             function getStudentOrTutor(callback, input) {
                 // try student database first
-                Student.findOne({ email: input.email }, (notFound, student) => {
-                    // not found in student database
-                    if (notFound) {
-                        callback(notFound);
+                Student.findOne({ email: input.email }, (err, student) => {
+                    if (err) {
+                        callback(err);
+                        return;
+                    }
+                    if (student == null) {
                         // try tutor database
                         Tutor.findOne({ email: input.email }, (err, tutor) => {
-                            // email not found in neither student or tutor database
                             if (err) {
                                 callback(err);
                                 return;
                             }
-                            // check password after found it
                             if (input.password && tutor) {
                                 bcrypt.compare(input.password, tutor.password, (err, same) => {
                                     if (err) {
                                         callback(err);
                                         return;
                                     }
-                                    callback(null, same ? tutor : null);
-                                    return;
+                                    return callback(null, same ? tutor : null);
                                 });
                                 return;
                             }
-                            callback(null, tutor);  
+                            return callback(null, tutor);
                         })
+                        return;
                     }
-                    
-                    // if found in student db
                     if (input.password && student) {
                         bcrypt.compare(input.password, student.password, (err, same) => {
                             if (err) {
                                 callback(err);
                                 return;
                             }
-                            callback(null, same ? student: null);
-                            return;
+                            return callback(null, same ? student : null);
                         });
                         return;
-                    }       
-                    callback(null, student);
+                    }
+                    return callback(null, student);
                 })
+            }
+
+            function createStudentProfile(callback, { student, picture, program, helps, about }) {
+                studentProfile.create(
+                    {
+                        student: student,
+                        picture,
+                        program,
+                        helps,
+                        about
+                    }, (err, res) => {
+                        if (err) {
+                            callback(err);
+                            return;
+                        }
+                        const profile = res;
+                        profile.id = profile._id;
+                        callback(null, profile);
+                    })
+            }
+
+            function viewStudentProfile(callback, student) {
+                StudentProfile.findOne({ student: student.id }, (err, res) => {
+                    err ? callback(err, null) : callback(null, res);
+                });
             }
 
             connected(null, {
                 createStudent,
                 createTutor,
-                getStudentOrTutor
+                getStudentOrTutor,
+                createStudentProfile,
+                viewStudentProfile
             })
         }
     )

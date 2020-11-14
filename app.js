@@ -1,22 +1,24 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
 
 module.exports = (database, jwt) => {
-    // serve static front-end code
-    app.use(express.static("Public"));
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
+    app.use(cookieParser());
+    app.use(cors());
 
     // user authentication endpoint
     const authRouter = require("./routers/auth")(database, jwt);
     app.use("/user", authRouter);
 
-    app.get("/",(req,res)=>{
-        res.send("halo wor")
-    })
+    // student user profile endpoint
+    const profileRouter = require("./routers/profile")(database, jwt);
+    app.use("/student/profile", jwt.verifyToken, profileRouter);
+
     app.get("*", (req, res) => {
-        // serve error page
-        res.render("error");
+        res.send("error");
     })
 
     return app;

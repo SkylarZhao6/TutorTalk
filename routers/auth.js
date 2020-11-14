@@ -1,12 +1,9 @@
 const express = require("express");
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (database, jwt) => {
-    // student log in 
+    // log in 
     router.post("/login", (req, res) => {
-        const { email, password } = req.body;
-        console.log(req.body);
-
         database.getStudentOrTutor(
             (err, user) => {
                 if (err) {
@@ -14,23 +11,24 @@ module.exports = (database, jwt) => {
                 }
                 // when user enters wrong email or password
                 if (!user) {
-                    return res.send({ err: "Incorrect email or password!" })
+                    return res.send({ err: "Incorrect email or password!" });
                 }
-                
                 // generate a jwt token for user
                 const token = jwt.generateToken({
-                    email,
-                    user_id: user._id,
+                    email: user.email,
+                    user: user._id,
                 });
                 return res.send({ userToken: token });
             },
-            { email, password }
+            {
+                email: req.body.email,
+                password: req.body.password
+            }
         );
     });
 
     //student user registration
     router.post("/register/student", (req, res) => {
-        console.log(req.body);
         // check if the email exists first
         database.getStudentOrTutor(
             (err, user) => {
@@ -39,7 +37,7 @@ module.exports = (database, jwt) => {
                 }
                 // when the email exists in the database
                 if (user) {
-                    return res.send({ err: "This email has already been used."})
+                    return res.send({ err: "This email has already been used." })
                 }
 
                 // create a new student user
@@ -69,34 +67,6 @@ module.exports = (database, jwt) => {
         );
     });
 
-    // tutor log in 
-    // router.post("/", (req, res) => {
-    //     const { email, password } = req.body;
-    //     database.getTutor(
-    //         (err, user) => {
-    //             if (err) {
-    //                 // error page
-    //                 // res.render("error");
-    //                 return;
-    //             }
-    //             if (!user) {
-    //                 // main page
-    //                 res.render("", {
-    //                     msg: "Incorrect email or password!",
-    //                 });
-    //                 return;
-    //             }
-    //             const token = jwt.generateToken({
-    //                 email,
-    //                 user_id: user._id,
-    //             });
-    //             res.cookie("JWT", { token: token });
-    //             res.redirect("/profile");
-    //         },
-    //         { email, password }
-    //     );
-    // });
-
     //tutor user registration
     router.post("/register/tutor", (req, res) => {
         // check if the email exists
@@ -106,10 +76,8 @@ module.exports = (database, jwt) => {
                     return res.send({ err: err });
                 }
                 if (user) {
-                    return res.send({ err: "This email has already been used."})
+                    return res.send({ err: "This email has already been used." })
                 }
-                console.log(req.body);
-
                 // create the tutor user
                 database.createTutor(
                     (err, user) => {
