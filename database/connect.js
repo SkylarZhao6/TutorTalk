@@ -49,28 +49,6 @@ module.exports = function(connected) {
                 });
             }
 
-            // validate a student user
-            function getStudent(callback, input) {
-                Student.findOne({ email: input.email }, (err, student) => {
-                    if (err) {
-                        callback(err, null);
-                        return;
-                    }
-                    if (input.password && student) {
-                        bcrypt.compare(input.password, student.password, (err, same) => {
-                            if (err) {
-                                callback(err);
-                                return;
-                            }
-                            callback(null, same ? student: null);
-                            return;
-                        });
-                        return;
-                    }       
-                    callback(null, student);
-                });
-            }
-
             // insert a new tutor user
             function createTutor(callback, info) {
                 bcrypt.hash(info.password, 12, (err, hashed) => {
@@ -93,33 +71,56 @@ module.exports = function(connected) {
                 });
             }
 
-            // validate a tutor user
-            function getTutor(callback, input) {
-                Tutor.findOne({ email: input.email }, (err, tutor) => {
-                    if (err) {
-                        callback(err, null);
-                        return;
-                    }
-                    if (input.password && tutor) {
-                        bcrypt.compare(input.password, tutor.password, (err, same) => {
+            // validate a tutor or student user
+            function getStudentOrTutor(callback, input) {
+                // try student database first
+                Student.findOne({ email: input.email }, (notFound, student) => {
+                    // not found in student database
+                    if (notFound) {
+                        callback(notFound);
+                        // try tutor database
+                        Tutor.findOne({ email: input.email }, (err, tutor) => {
+                            // email not found in neither student or tutor database
                             if (err) {
                                 callback(err);
                                 return;
                             }
-                            callback(null, same ? tutor : null);
+                            // check password after found it
+                            if (input.password && tutor) {
+                                bcrypt.compare(input.password, tutor.password, (err, same) => {
+                                    if (err) {
+                                        callback(err);
+                                        return;
+                                    }
+                                    callback(null, same ? tutor : null);
+                                    return;
+                                });
+                                return;
+                            }
+                            callback(null, tutor);  
+                        })
+                    }
+                    
+                    // if found in student db
+                    if (input.password && student) {
+                        bcrypt.compare(input.password, student.password, (err, same) => {
+                            if (err) {
+                                callback(err);
+                                return;
+                            }
+                            callback(null, same ? student: null);
                             return;
                         });
                         return;
                     }       
-                    callback(null, tutor);
-                });
+                    callback(null, student);
+                })
             }
 
             connected(null, {
                 createStudent,
-                getStudent,
                 createTutor,
-                getTutor
+                getStudentOrTutor
             })
         }
     )

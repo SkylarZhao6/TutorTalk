@@ -7,9 +7,9 @@ module.exports = (database, jwt) => {
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
 
-    // serve auth pages
-    const authRoute = require("./routers/authRoute")(database, jwt);
-    app.use("/user", authRoute);
+    // user authentication endpoint
+    const authRouter = require("./routers/auth")(database, jwt);
+    app.use("/user", authRouter);
 
     app.get("/",(req,res)=>{
         res.send("halo wor")
