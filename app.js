@@ -9,7 +9,7 @@ module.exports = (database, jwt) => {
 
     // serve auth pages
     const authRoute = require("./routers/authRoute")(database, jwt);
-    app.use("/auth", authRoute);
+    app.use("/user", authRoute);
 
     app.get("/",(req,res)=>{
         res.send("halo wor")

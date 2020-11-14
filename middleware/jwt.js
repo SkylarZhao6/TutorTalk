@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 function verifyToken(req, res, next) {
 	const token = req.cookies.JWT.token;
 	try {
-		jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+		jwt.verify(token, process.env.JWT_KEY, (err, user) => {
 			if (err) {
 				console.log(err);
 				return;
@@ -20,7 +20,7 @@ exports.verifyToken = verifyToken;
 
 // generate jwt
 function generateToken(user) {
-    const token = jwt.sign(user, process.env.TOKEN_SECRET, {
+    const token = jwt.sign(user, process.env.JWT_KEY, {
         expiresIn: "1day",
     });
     return token;

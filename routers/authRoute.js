@@ -2,20 +2,21 @@ const express = require("express");
 const router  = express.Router();
 
 module.exports = (database, jwt) => {
-    // log student user in
-    // may change the endpoint later...
+    // student log in 
     router.post("/login", (req, res) => {
         const { email, password } = req.body;
-        console.log(email,password)
+        console.log(req.body);
+
         database.getStudent(
             (err, user) => {
                 if (err) {
-                    return res.send({ err:err })
+                    return res.send({ err: err });
                 }
+                // when user enter wrong email or password
                 if (!user) {
-                    return res.send({ err: "Incorrect username or password!" })
+                    return res.send({ err: "Incorrect email or password!" })
                 }
-
+                
                 const token = jwt.generateToken({
                     email,
                     user_id: user._id,
@@ -28,37 +29,30 @@ module.exports = (database, jwt) => {
 
     //student user registration
     router.post("/register/student", (req, res) => {
-        // check if the email exists
+        // console.log(req.body);
+        // check if the email exists first
         database.getStudent(
             (err, user) => {
                 if (err) {
-                    // error page
-                    // res.render("error");
-                    return;
+                    return res.send({ err: err });
                 }
+                // when the email exists in the database
                 if (user) {
-                    // serve register page
-                    res.render("signup", {
-                        msg: "Email has been taken",
-                    });
-                    return;
+                    return res.send({ err: "This email has already been used."})
                 }
-                console.log(req.body);
 
                 // create the student user
                 database.createStudent(
                     (err, user) => {
                         if (err) {
-                            // error page
-                            // res.render("error");
-                            return;
+                            return res.send({ err: err });
                         }
                         const token = jwt.generateToken({
                             email: user.email,
                             user_id: user.id,
                         });
                         res.cookie("JWT", { token: token });
-                        res.redirect("/register/student/success");
+                        res.send("Successfully registered.");
                     },
                     {
                         email: req.body.email,
@@ -87,7 +81,7 @@ module.exports = (database, jwt) => {
                 if (!user) {
                     // main page
                     res.render("", {
-                        msg: "Incorrect username or password!",
+                        msg: "Incorrect email or password!",
                     });
                     return;
                 }
