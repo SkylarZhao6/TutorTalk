@@ -13,9 +13,9 @@ module.exports = (database, jwt) => {
     const authRouter = require("./routers/auth")(database, jwt);
     app.use("/user", authRouter);
 
-    // student user profile endpoint
+    // user profile endpoint
     const profileRouter = require("./routers/profile")(database, jwt);
-    app.use("/student/profile", jwt.verifyToken, profileRouter);
+    app.use("/profile", jwt.verifyToken, profileRouter);
 
     app.get("*", (req, res) => {
         res.send("error");

@@ -22,7 +22,7 @@ module.exports = function (connected) {
 
             // import documents from database
             const Student = require("./models/student");
-            const studentProfile = require("./models/studentProfile");
+            const StudentProfile = require("./models/studentProfile");
             const Tip = require("./models/tip");
             const Tutor = require("./models/tutor");
             const TutorProfile = require("./models/tutorProfile");
@@ -117,9 +117,9 @@ module.exports = function (connected) {
 
             // insert student profile
             function createStudentProfile(callback, { student, picture, program, helps, about }) {
-                studentProfile.create(
+                StudentProfile.create(
                     {
-                        student: student,
+                        student,
                         picture,
                         program,
                         helps,
@@ -137,8 +137,39 @@ module.exports = function (connected) {
 
             // get student profile from db
             function viewStudentProfile(callback, student) {
-                StudentProfile.findOne({ student: student.id }, (err, res) => {
-                    err ? callback(err, null) : callback(null, res);
+                const student_id = new mongoose.Types.ObjectId(student.id);
+                StudentProfile.findOne({ student: student_id }, (err, profile) => {
+                    err ? callback(err, null) : callback(null, profile);
+                });
+            }
+
+            // insert tutor profile
+            function createTutorProfile(callback, { tutor, picture, role, job, diploma, availabilities, about }) {
+                TutorProfile.create(
+                    {
+                        tutor,
+                        picture,
+                        role,
+                        job,
+                        diploma,
+                        availabilities,
+                        about
+                    }, (err, res) => {
+                        if (err) {
+                            callback(err);
+                            return;
+                        }
+                        const profile = res;
+                        profile.id = profile._id;
+                        callback(null, profile);
+                    })
+            }
+
+            // get tutor profile from db
+            function viewTutorProfile(callback, tutor) {
+                const tutor_id = new mongoose.Types.ObjectId(tutor.id);
+                TutorProfile.findOne({ tutor: tutor_id }, (err, profile) => {
+                    err ? callback(err, null) : callback(null, profile);
                 });
             }
 
@@ -147,7 +178,9 @@ module.exports = function (connected) {
                 createTutor,
                 getStudentOrTutor,
                 createStudentProfile,
-                viewStudentProfile
+                viewStudentProfile,
+                createTutorProfile,
+                viewTutorProfile
             })
         }
     )

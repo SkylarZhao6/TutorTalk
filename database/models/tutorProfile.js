@@ -9,7 +9,6 @@ const tutorProfileSchema = new mongoose.Schema({
     role: String,
     job: String,
     diploma: String,
-    phonenumber: Number,
     availabilities: String,
     about: String
 })
