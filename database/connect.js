@@ -173,6 +173,26 @@ module.exports = function (connected) {
                 });
             }
 
+            // tutors create a tip
+            function createTip(callback, { tutor, subject, content }) {
+                Tip.create({ tutor, subject, content }, (err, res) => {
+                    if (err) {
+                        callback(err);
+                        return;
+                    }
+                    const tip = res;
+                    tip.id = tip._id;
+                    callback(null, tip);
+                })
+            }
+
+            // view all tips
+            function viewTips(callback) {
+                Tip.find({}, (err, tips) => {
+                    err ? callback(err, null) : callback(null, tips);
+                })
+            }
+
             connected(null, {
                 createStudent,
                 createTutor,
@@ -180,7 +200,9 @@ module.exports = function (connected) {
                 createStudentProfile,
                 viewStudentProfile,
                 createTutorProfile,
-                viewTutorProfile
+                viewTutorProfile,
+                createTip,
+                viewTips
             })
         }
     )

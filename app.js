@@ -17,6 +17,10 @@ module.exports = (database, jwt) => {
     const profileRouter = require("./routers/profile")(database, jwt);
     app.use("/profile", jwt.verifyToken, profileRouter);
 
+    // tips endpoint
+    const tipRouter = require("./routers/tip")(database, jwt);
+    app.use("/tips", jwt.verifyToken, tipRouter);
+
     app.get("*", (req, res) => {
         res.send("error");
     })

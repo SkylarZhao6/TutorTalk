@@ -20,9 +20,9 @@ exports.verifyToken = verifyToken;
 
 // generate jwt
 function generateToken(user) {
-    const token = jwt.sign(user, process.env.JWT_KEY, {
-        expiresIn: "1day",
-    });
-    return token;
+	const token = jwt.sign(user, process.env.JWT_KEY, {
+		expiresIn: "1day",
+	});
+	return token;
 }
 exports.generateToken = generateToken;

@@ -63,7 +63,7 @@ module.exports = (database, jwt) => {
     })
 
     // view a tutor's profile
-    router.get("/profile/view/:id", (req, res) => {
+    router.get("/view/:id", (req, res) => {
         database.viewTutorProfile((err, profile) => {
             if (err) {
                 return res.send({ err: err });
@@ -73,7 +73,6 @@ module.exports = (database, jwt) => {
             id: req.params.id
         })
     })
-
 
     return router;
 }
