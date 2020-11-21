@@ -25,9 +25,9 @@ module.exports = (database, jwt) => {
     const searchRouter = require("./routers/search")(database, jwt);
     app.use("/search", jwt.verifyToken, searchRouter);
 
-    app.get("*", (req, res) => {
-        res.send("error");
-    })
+    // app.get("*", (req, res) => {
+    //     res.send("error");
+    // })
 
     return app;
 };
