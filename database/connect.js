@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const StudentProfile = require("./models/studentProfile");
+// const StudentProfile = require("./models/studentProfile");
 
 module.exports = function (connected) {
     // connect to mongodb
@@ -193,6 +193,17 @@ module.exports = function (connected) {
                 })
             }
 
+            // search for tutors
+            function searchTutor(callback, search) {
+                const keyword = search.subject;
+                TutorProfile.find({
+                    subject:
+                        { $regex: ".*" + keyword + ".*" }
+                }, (err, tutor) => {
+                    err ? callback(err, null) : callback(null, tutor);
+                })
+            }
+
             connected(null, {
                 createStudent,
                 createTutor,
@@ -202,7 +213,8 @@ module.exports = function (connected) {
                 createTutorProfile,
                 viewTutorProfile,
                 createTip,
-                viewTips
+                viewTips,
+                searchTutor
             })
         }
     )

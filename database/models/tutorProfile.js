@@ -6,7 +6,7 @@ const tutorProfileSchema = new mongoose.Schema({
         ref: "Tutor"
     },
     picture: String,
-    role: String,
+    subject: String,
     job: String,
     diploma: String,
     availabilities: String,

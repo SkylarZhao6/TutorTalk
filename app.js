@@ -11,7 +11,7 @@ module.exports = (database, jwt) => {
 
     // user authentication endpoint
     const authRouter = require("./routers/auth")(database, jwt);
-    app.use("/user", authRouter);
+    app.use("/", authRouter);
 
     // user profile endpoint
     const profileRouter = require("./routers/profile")(database, jwt);
@@ -20,6 +20,10 @@ module.exports = (database, jwt) => {
     // tips endpoint
     const tipRouter = require("./routers/tip")(database, jwt);
     app.use("/tips", jwt.verifyToken, tipRouter);
+
+    // search tutors endpoint
+    const searchRouter = require("./routers/search")(database, jwt);
+    app.use("/search", jwt.verifyToken, searchRouter);
 
     app.get("*", (req, res) => {
         res.send("error");
