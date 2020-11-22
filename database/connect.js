@@ -143,12 +143,12 @@ module.exports = function (connected) {
             }
 
             // insert tutor profile
-            function createTutorProfile(callback, { tutor, picture, role, job, diploma, availabilities, about }) {
+            function createTutorProfile(callback, { tutor, picture, subject, job, diploma, availabilities, about }) {
                 TutorProfile.create(
                     {
                         tutor,
                         picture,
-                        role,
+                        subject,
                         job,
                         diploma,
                         availabilities,

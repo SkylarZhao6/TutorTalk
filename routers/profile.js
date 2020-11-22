@@ -42,7 +42,7 @@ module.exports = (database, jwt) => {
         }, {
             tutor: req.user.user_id,
             picture: req.body.picture,
-            role: req.body.role,
+            subject: req.body.subject,
             job: req.body.job,
             diploma: req.body.diploma,
             availabilities: req.body.availabilities,
