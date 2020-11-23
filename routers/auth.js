@@ -10,9 +10,6 @@ module.exports = (database, jwt) => {
                 if (err) {
                     return res.send({ err: err });
                 }
-                if (user == null) {
-                    return res.send({ err: "Please make sure email and password are filled." })
-                }
                 // when user enters wrong email or password
                 if (!user) {
                     return res.send({ err: "Incorrect email or password!" });
