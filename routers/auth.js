@@ -1,4 +1,5 @@
 const express = require("express");
+const { read } = require("fs");
 const router = express.Router();
 
 module.exports = (database, jwt) => {
@@ -8,6 +9,9 @@ module.exports = (database, jwt) => {
             (err, user) => {
                 if (err) {
                     return res.send({ err: err });
+                }
+                if (user == null) {
+                    return res.send({ err: "Please make sure email and password are filled." })
                 }
                 // when user enters wrong email or password
                 if (!user) {
@@ -109,6 +113,7 @@ module.exports = (database, jwt) => {
     router.get("/logout", (req, res) => {
         res.clearCookie("JWT");
         res.status(204);
+        res.send("cookie?");
     });
 
     return router;
