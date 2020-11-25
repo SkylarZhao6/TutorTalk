@@ -1,5 +1,4 @@
 const express = require("express");
-const { read } = require("fs");
 const router = express.Router();
 
 module.exports = (database, jwt) => {
@@ -14,13 +13,14 @@ module.exports = (database, jwt) => {
                 if (!user) {
                     return res.send({ err: "Incorrect email or password!" });
                 }
+                console.log(user);
                 // generate a jwt token for user
                 const token = jwt.generateToken({
                     email: user.email,
                     user: user._id,
                 });
                 res.cookie("JWT", { token: token });
-                return res.send({ userToken: token });
+                return res.send({ userToken: token, user });
             },
             {
                 email: req.body.email,
@@ -61,7 +61,8 @@ module.exports = (database, jwt) => {
                         password: req.body.password,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
-                        phonenumber: req.body.phonenumber
+                        phonenumber: req.body.phonenumber,
+                        role: "student"
                     }
                 );
             },
@@ -98,7 +99,8 @@ module.exports = (database, jwt) => {
                         password: req.body.password,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
-                        phonenumber: req.body.phonenumber
+                        phonenumber: req.body.phonenumber,
+                        role: "tutor"
                     }
                 );
             },
