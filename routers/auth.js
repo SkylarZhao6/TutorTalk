@@ -13,14 +13,13 @@ module.exports = (database, jwt) => {
                 if (!user) {
                     return res.send({ err: "Incorrect email or password!" });
                 }
-                console.log(user);
                 // generate a jwt token for user
                 const token = jwt.generateToken({
                     email: user.email,
                     user: user._id,
                 });
                 res.cookie("JWT", { token: token });
-                return res.send({ userToken: token, user });
+                return res.send({ userToken: token, role: user.role });
             },
             {
                 email: req.body.email,
@@ -54,7 +53,7 @@ module.exports = (database, jwt) => {
                             user_id: user.id,
                         });
                         res.cookie("JWT", { token: token });
-                        return res.send("Successfully registered.");
+                        return res.send("Successfully registered.", { role: user.role });
                     },
                     {
                         email: req.body.email,
@@ -92,7 +91,7 @@ module.exports = (database, jwt) => {
                             user_id: user.id,
                         });
                         res.cookie("JWT", { token: token });
-                        return res.send("Successfully registered.");
+                        return res.send("Successfully registered.", { role: user.role });
                     },
                     {
                         email: req.body.email,
