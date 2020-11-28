@@ -2,6 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (database, jwt) => {
+    // check if role is tutor
+    router.post("/rolecheck", (req, res) => {
+        database.checkRole((err, tutor) => {
+            err ? res.send({ err: err }) : res.send({ role: tutor.role })
+        }, {
+            user: req.user.user_id
+        })
+    })
+
     // tutors add a new tip
     router.post("/add", (req, res) => {
         database.createTip((err, tip) => {

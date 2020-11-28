@@ -172,6 +172,14 @@ module.exports = function (connected) {
                 });
             }
 
+            // check tutor's role to add tips
+            function checkRole(callback, user) {
+                const user_id = new mongoose.Types.ObjectId(user.id);
+                Tutor.findOne({ _id: user_id }, (err, tutor) => {
+                    err ? callback(err, null) : callback(null, tutor);
+                })
+            }
+
             // tutors create a tip
             function createTip(callback, { tutor, subject, content }) {
                 Tip.create({ tutor, subject, content }, (err, res) => {
@@ -211,6 +219,7 @@ module.exports = function (connected) {
                 viewStudentProfile,
                 createTutorProfile,
                 viewTutorProfile,
+                checkRole,
                 createTip,
                 viewTips,
                 searchTutor
