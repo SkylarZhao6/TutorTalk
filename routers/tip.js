@@ -6,7 +6,7 @@ module.exports = (database, jwt) => {
     router.post("/rolecheck", (req, res) => {
         database.checkRole((err, result) => {
             if (result == null) {
-                return res.send({ role: null });
+                err ? res.send({ err: err }) : res.send({ role: null });
             } else {
                 err ? res.send({ err: err }) : res.send({ role: result.role });
             }
