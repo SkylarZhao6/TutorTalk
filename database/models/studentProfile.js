@@ -7,7 +7,6 @@ const studentProfileSchema = new mongoose.Schema({
     },
     picture: String,
     program: String,
-    helps: [],
     about: String
 })
 

@@ -14,7 +14,6 @@ module.exports = (database, jwt) => {
             student: req.user.user_id,
             picture: req.body.picture,
             program: req.body.program,
-            helps: req.body.helps,
             about: req.body.about
         })
     })
