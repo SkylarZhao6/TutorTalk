@@ -18,8 +18,8 @@ module.exports = (database, jwt) => {
                     email: user.email,
                     user: user._id,
                 });
-                res.cookie("JWT", { token: token });
-                return res.send({ userToken: token, role: user.role });
+                return res.cookie("JWT", { token: token }).send({ userToken: token, role: user.role });
+                // return res.send({ userToken: token, role: user.role });
             },
             {
                 email: req.body.email,
