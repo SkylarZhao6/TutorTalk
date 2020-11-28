@@ -172,9 +172,9 @@ module.exports = function (connected) {
                 });
             }
 
-            // check tutor's role to add tips
+            // check role to add tips
             function checkRole(callback, user) {
-                const user_id = new mongoose.Types.ObjectId(user.id);
+                const user_id = new mongoose.Types.ObjectId(user.user);
                 Tutor.findOne({ _id: user_id }, (err, tutor) => {
                     err ? callback(err, null) : callback(null, tutor);
                 })

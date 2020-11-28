@@ -53,7 +53,7 @@ module.exports = (database, jwt) => {
                             user_id: user.id,
                         });
                         res.cookie("JWT", { token: token });
-                        return res.send("Successfully registered.", { role: user.role });
+                        return res.send("Successfully registered.");
                     },
                     {
                         email: req.body.email,
@@ -91,7 +91,7 @@ module.exports = (database, jwt) => {
                             user_id: user.id,
                         });
                         res.cookie("JWT", { token: token });
-                        return res.send("Successfully registered.", { role: user.role });
+                        return res.send("Successfully registered.");
                     },
                     {
                         email: req.body.email,

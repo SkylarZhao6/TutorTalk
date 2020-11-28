@@ -4,10 +4,14 @@ const router = express.Router();
 module.exports = (database, jwt) => {
     // check if role is tutor
     router.post("/rolecheck", (req, res) => {
-        database.checkRole((err, tutor) => {
-            err ? res.send({ err: err }) : res.send({ role: tutor.role })
+        database.checkRole((err, result) => {
+            if (result == null) {
+                return res.send({ role: null });
+            } else {
+                err ? res.send({ err: err }) : res.send({ role: result.role });
+            }
         }, {
-            user: req.user.user_id
+            user: req.user.user
         })
     })
 
