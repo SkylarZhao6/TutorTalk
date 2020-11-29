@@ -3,7 +3,7 @@ const router = express.Router();
 
 module.exports = (database, jwt) => {
     // check if role is tutor
-    router.post("/rolecheck", (req, res) => {
+    router.post("/", (req, res) => {
         database.checkRole((err, result) => {
             if (result == null) {
                 err ? res.send({ err: err }) : res.send({ role: null });
