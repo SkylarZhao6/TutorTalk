@@ -3,7 +3,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
 
-// cors origins
 var allowlist = ['http://localhost:3000', 'https://tutor-talk.vercel.app']
 var corsOptionsDelegate = function (req, callback) {
     var corsOptions;
