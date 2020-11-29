@@ -16,10 +16,11 @@ module.exports = (database, jwt) => {
                 // generate a jwt token for user
                 const token = jwt.generateToken({
                     email: user.email,
-                    user: user._id,
+                    user_id: user._id,
                 });
-                return res.cookie("JWT", { token: token }).send({ userToken: token, role: user.role });
-                // return res.send({ userToken: token, role: user.role });
+                return res
+                    .cookie("JWT", { token: token })
+                    .send({ userToken: token, role: user.role })
             },
             {
                 email: req.body.email,
@@ -52,8 +53,9 @@ module.exports = (database, jwt) => {
                             email: user.email,
                             user_id: user.id,
                         });
-                        res.cookie("JWT", { token: token });
-                        return res.send("Successfully registered.");
+                        return res
+                            .cookie("JWT", { token: token })
+                            .send("Successfully registered.");
                     },
                     {
                         email: req.body.email,
@@ -90,8 +92,9 @@ module.exports = (database, jwt) => {
                             email: user.email,
                             user_id: user.id,
                         });
-                        res.cookie("JWT", { token: token });
-                        return res.send("Successfully registered.");
+                        return res
+                            .cookie("JWT", { token: token })
+                            .send("Successfully registered.");
                     },
                     {
                         email: req.body.email,
@@ -111,7 +114,7 @@ module.exports = (database, jwt) => {
     router.get("/logout", (req, res) => {
         res.clearCookie("JWT");
         res.status(204);
-        res.send("cookie?");
+        res.send("cookie");
     });
 
     return router;

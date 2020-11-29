@@ -11,7 +11,7 @@ module.exports = (database, jwt) => {
                 err ? res.send({ err: err }) : res.send({ role: result.role });
             }
         }, {
-            user: req.user.user
+            id: req.user.user_id
         })
     })
 

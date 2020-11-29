@@ -174,7 +174,7 @@ module.exports = function (connected) {
 
             // check role to add tips
             function checkRole(callback, user) {
-                const user_id = new mongoose.Types.ObjectId(user.user);
+                const user_id = new mongoose.Types.ObjectId(user.id);
                 Tutor.findOne({ _id: user_id }, (err, tutor) => {
                     err ? callback(err, null) : callback(null, tutor);
                 })
