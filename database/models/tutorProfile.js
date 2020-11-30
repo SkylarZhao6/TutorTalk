@@ -1,4 +1,3 @@
-const { Binary } = require("bson");
 const mongoose = require("mongoose");
 
 const tutorProfileSchema = new mongoose.Schema({
@@ -6,11 +5,10 @@ const tutorProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Tutor"
     },
-    picture: Binary,
-    role: String,
+    picture: String,
+    subject: String,
     job: String,
     diploma: String,
-    phonenumber: Number,
     availabilities: String,
     about: String
 })

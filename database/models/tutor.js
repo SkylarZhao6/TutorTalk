@@ -4,7 +4,8 @@ const tutorSchema = new mongoose.Schema({
     firstname: String,
     lastname: String,
     email: String,
-    password: String
+    password: String,
+    role: String
 })
 
 const Tutor = mongoose.model("Tutor", tutorSchema);
