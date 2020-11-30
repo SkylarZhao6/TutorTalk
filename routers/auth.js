@@ -19,7 +19,7 @@ module.exports = (database, jwt) => {
                     user_id: user._id,
                 });
                 return res
-                    .cookie("JWT", { token: token })
+                    .cookie("JWT", { token: token }, { httpOnly: false })
                     .send({ userToken: token, role: user.role })
             },
             {
