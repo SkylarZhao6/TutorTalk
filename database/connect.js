@@ -181,8 +181,8 @@ module.exports = function (connected) {
             }
 
             // tutors create a tip
-            function createTip(callback, { tutor, subject, content }) {
-                Tip.create({ tutor, subject, content }, (err, res) => {
+            function createTip(callback, { tutorId, tutor, subject, content }) {
+                Tip.create({ tutorId, tutor, subject, content }, (err, res) => {
                     if (err) {
                         callback(err);
                         return;

@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 
 const tipSchema = new mongoose.Schema({
-    tutor: {
+    tutorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Tutor"
     },
+    tutor: String,
     subject: String,
     content: String
 })

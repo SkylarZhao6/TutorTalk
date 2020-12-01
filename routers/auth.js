@@ -16,6 +16,7 @@ module.exports = (database, jwt) => {
                 // generate a jwt token for user
                 const token = jwt.generateToken({
                     email: user.email,
+                    firstname: user.firstname,
                     user_id: user._id,
                 });
                 return res

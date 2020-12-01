@@ -23,7 +23,8 @@ module.exports = (database, jwt) => {
             }
             return res.send("A new tip created.");
         }, {
-            tutor: req.user.user_id,
+            tutorId: req.user.user_id,
+            tutor: req.user.firstname,
             subject: req.body.subject,
             content: req.body.content
         })

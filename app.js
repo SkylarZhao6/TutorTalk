@@ -6,7 +6,7 @@ const app = express();
 var allowlist = ['http://localhost:3000', 'https://tutor-talk.vercel.app']
 var corsOptionsDelegate = function (req, callback) {
     var corsOptions;
-    console.log("origins", req.header('Origin'), allowlist.indexOf(req.header('Origin')));
+    // console.log("origins", req.header('Origin'), allowlist.indexOf(req.header('Origin')));
 
     if (allowlist.indexOf(req.header('Origin')) !== -1) {
         console.log("cors went through");
