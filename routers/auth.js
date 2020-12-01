@@ -54,7 +54,7 @@ module.exports = (database, jwt) => {
                             user_id: user.id,
                         });
                         return res
-                            .cookie("JWT", { token: token })
+                            .cookie("JWT", { token: token }, { httpOnly: false, sameSite: "none", secure: true })
                             .send("Successfully registered.");
                     },
                     {
@@ -93,7 +93,7 @@ module.exports = (database, jwt) => {
                             user_id: user.id,
                         });
                         return res
-                            .cookie("JWT", { token: token })
+                            .cookie("JWT", { token: token }, { httpOnly: false, sameSite: "none", secure: true })
                             .send("Successfully registered.");
                     },
                     {

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 // verify jwt token
 function verifyToken(req, res, next) {
-	console.log("req cookies", req.cookies);
+	// console.log("req cookies", req.cookies);
 	const token = req.cookies.JWT.token;
 	// console.log(token)
 	try {
