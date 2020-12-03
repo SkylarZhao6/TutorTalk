@@ -13,7 +13,7 @@ const s3 = new aws.S3();
 exports.upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: process.env.BUCKET_NAME,
+        bucket: "tutortalk",
         key: function (req, file, cb) {
             cb(null, file.originalname);
         }
