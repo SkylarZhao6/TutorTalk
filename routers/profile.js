@@ -9,12 +9,12 @@ module.exports = (database, jwt) => {
     // create student profile
     router.post("/student/create", singleUpload, (req, res) => {
         console.log(req.file);
-        singleUpload(req, res, (err) => {
+        singleUpload(req.file, res, (err) => {
             if (err) {
                 return res.send({ err: err });
             }
-            console.log(req.file);
-            console.log(req.file.location)
+            // console.log(req.file);
+            // console.log(req.file.location)
             let picture = { 'imageUrl': req.file.location };
 
             database.createStudentProfile(picture, (err, profile) => {
