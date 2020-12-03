@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const AWS = require("../middleware/photo_upload");
+
+const singleUpload = AWS.upload.single("image");
 
 module.exports = (database, jwt) => {
     // student profile controllers
     // create student profile
-    router.post("/student/create", (req, res) => {
+    router.post("/student/create", singleUpload, (req, res) => {
+        console.log(req.body.picture);
+
         database.createStudentProfile((err, profile) => {
             if (err) {
                 return res.send({ err: err });
