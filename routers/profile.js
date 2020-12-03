@@ -13,6 +13,8 @@ module.exports = (database, jwt) => {
             if (err) {
                 return res.send({ err: err });
             }
+            console.log(req.file);
+            console.log(req.file.location)
             let picture = { 'imageUrl': req.file.location };
 
             database.createStudentProfile(picture, (err, profile) => {
