@@ -9,17 +9,24 @@ module.exports = (database, jwt) => {
     // create student profile
     router.post("/student/create", singleUpload, (req, res) => {
         console.log(req.file);
-        database.createStudentProfile((err, profile) => {
+        singleUpload(req, res, (err) => {
             if (err) {
                 return res.send({ err: err });
             }
-            return res.send("Profile created.");
-        }, {
-            student: req.user.user_id,
-            picture: req.file,
-            program: req.body.program,
-            about: req.body.about
+            let picture = { 'imageUrl': req.file.location };
+
+            database.createStudentProfile(picture, (err, profile) => {
+                if (err) {
+                    return res.send({ err: err });
+                }
+                return res.send("Profile created.");
+            }, {
+                student: req.user.user_id,
+                program: req.body.program,
+                about: req.body.about
+            })
         })
+
     })
 
     // view student own profile
