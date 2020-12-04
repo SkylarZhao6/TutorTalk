@@ -52,6 +52,7 @@ module.exports = (database, jwt) => {
                         // generate a jwt token for user
                         const token = jwt.generateToken({
                             email: user.email,
+                            firstname: user.firstname,
                             user_id: user.id,
                         });
                         return res
@@ -92,6 +93,7 @@ module.exports = (database, jwt) => {
                         const token = jwt.generateToken({
                             email: user.email,
                             user_id: user.id,
+                            firstname: user.firstname,
                         });
                         return res
                             .cookie("JWT", { token: token }, { httpOnly: false, sameSite: "none", secure: true })

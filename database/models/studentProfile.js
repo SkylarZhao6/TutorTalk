@@ -5,6 +5,7 @@ const studentProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student"
     },
+    name: String,
     picture: String,
     program: String,
     about: String
