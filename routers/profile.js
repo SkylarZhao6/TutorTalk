@@ -8,7 +8,7 @@ module.exports = (database, jwt) => {
     // student profile controllers
     // create student profile
     router.post("/student/create", singleUpload, (req, res) => {
-        console.log(req.file);
+        console.log(req.files);
         singleUpload(req.file, res, (err) => {
             if (err) {
                 return res.send({ err: err });

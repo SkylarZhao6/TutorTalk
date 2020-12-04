@@ -96,6 +96,7 @@ module.exports = (database, jwt) => {
                         return res
                             .cookie("JWT", { token: token }, { httpOnly: false, sameSite: "none", secure: true })
                             .send("Successfully registered.");
+
                     },
                     {
                         email: req.body.email,
